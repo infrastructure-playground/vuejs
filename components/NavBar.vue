@@ -13,39 +13,30 @@
     </button>
 
     <!-- Brand -->
-    <a class="navbar-brand" routerLink="/">Logo</a>
+    <nuxt-link class="navbar-brand" to="/">Logo</nuxt-link>
 
     <!-- Links -->
     <div id="nav-content" class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
         <li v-if="!$auth.loggedIn" class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/register">
+          <nuxt-link class="nav-link" to="/register">
             Register
-          </a>
+          </nuxt-link>
         </li>
         <li v-if="!$auth.loggedIn" class="nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}"
-            routerLink="/"
-          >
+          <nuxt-link class="nav-link" to="/login">
             Login
-          </a>
+          </nuxt-link>
         </li>
         <li v-if="$auth.loggedIn" class="nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/inventory/books"
-          >
+          <nuxt-link to="/inventory/books">
             Books
-          </a>
+          </nuxt-link>
         </li>
         <li v-if="$auth.loggedIn" class="nav-item">
-          <a class="nav-link" skipLocationChange="true" routerLink="/logout">
+          <nuxt-link class="nav-link" to="/logout">
             Logout
-          </a>
+          </nuxt-link>
         </li>
       </ul>
     </div>
@@ -56,4 +47,8 @@
 export default {};
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.navbar-bg {
+  background-color: #c6c8ca;
+}
+</style>
