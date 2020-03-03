@@ -28,7 +28,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~plugins/validate.js"],
+  plugins: [
+    "~plugins/validate.js",
+    { src: "~plugins/vue-notification-ssr.js", mode: "server" },
+    { src: "~plugins/vue-notification-client.js", mode: "client" }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -56,7 +60,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API || "http://localhost:8000/api"
+    baseURL: process.env.API || "http://localhost:8000"
   },
   auth: {
     token: {
@@ -67,7 +71,7 @@ export default {
     },
     redirect: {
       login: false,
-      logout: "/",
+      logout: "/login",
       home: "/",
       callback: "/"
     },
@@ -75,10 +79,12 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: "/v1/authentication/login",
+            url: "/v1/authentication/login/",
             method: "post",
             propertyName: "token"
-          }
+          },
+          logout: false,
+          user: false
         },
         tokenType: false
       }
