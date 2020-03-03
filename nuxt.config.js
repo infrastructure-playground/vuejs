@@ -1,25 +1,26 @@
 export default {
-  mode: 'universal',
+  mode: "universal",
+  // env: { API: process.env.API || "http://localhost:8000/api" },
   /*
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.npm_package_name || "",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || ''
+        hid: "description",
+        name: "description",
+        content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: "#ccc" },
   /*
    ** Global CSS
    */
@@ -27,31 +28,62 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ["~plugins/validate.js"],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
+    "@nuxtjs/eslint-module",
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module'
+    "@nuxtjs/stylelint-module"
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
+    "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    "@nuxtjs/axios",
+    "@nuxtjs/pwa",
+    "@nuxtjs/auth",
+    // "@mole-inc/nuxt-validate" is the only to use v3 of vee-validate
+    ["@mole-inc/nuxt-validate"]
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: process.env.API || "http://localhost:8000/api"
+  },
+  auth: {
+    token: {
+      prefix: "token"
+    },
+    cookie: {
+      prefix: ""
+    },
+    redirect: {
+      login: false,
+      logout: "/",
+      home: "/",
+      callback: "/"
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/v1/authentication/login",
+            method: "post",
+            propertyName: "token"
+          }
+        },
+        tokenType: false
+      }
+    }
+  },
   /*
    ** Build configuration
    */
@@ -67,5 +99,11 @@ export default {
   },
   render: {
     static: { cacheControl: false }
+  },
+  router: {
+    linkActiveClass: "active",
+    extendRoutes(routes, resolve) {
+      routes.push({ path: "/", redirect: { name: "login" } });
+    }
   }
-}
+};
