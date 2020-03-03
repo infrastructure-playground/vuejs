@@ -29,14 +29,14 @@
           </nuxt-link>
         </li>
         <li v-if="$auth.loggedIn" class="nav-item">
-          <nuxt-link to="/inventory/books">
+          <nuxt-link class="nav-link" to="/inventory/books">
             Books
           </nuxt-link>
         </li>
         <li v-if="$auth.loggedIn" class="nav-item">
-          <nuxt-link class="nav-link" to="/logout">
+          <a href="#" class="nav-link" @click="logout">
             Logout
-          </nuxt-link>
+          </a>
         </li>
       </ul>
     </div>
@@ -44,7 +44,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    async logout() {
+      await this.$auth.logout();
+    }
+  }
+};
 </script>
 
 <style scoped>
