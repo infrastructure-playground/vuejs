@@ -1,8 +1,19 @@
 <template>
   <div>
-    <b-table striped hover :items="books" :fields="fields">
+    <b-table bordered hover :items="books" :fields="fields">
       <template v-slot:cell(actions)>
-        dasda
+        <font-awesome-icon
+          class="clickable-hover"
+          icon="eye"
+        ></font-awesome-icon>
+        <font-awesome-icon
+          class="clickable-hover"
+          icon="edit"
+        ></font-awesome-icon>
+        <font-awesome-icon
+          class="clickable-hover"
+          icon="times-circle"
+        ></font-awesome-icon>
       </template>
     </b-table>
   </div>
@@ -11,6 +22,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  layout: "books",
   async fetch({ store, error }) {
     try {
       await store.dispatch("inventory/fetchBooks");

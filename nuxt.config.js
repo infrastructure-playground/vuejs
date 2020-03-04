@@ -24,13 +24,14 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ["@fortawesome/fontawesome-svg-core/styles.css"],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
     "~plugins/validate.js",
     "~plugins/axios.js",
+    "~plugins/fontawesome.js",
     { src: "~plugins/vue-notification-ssr.js", mode: "server" },
     { src: "~plugins/vue-notification-client.js", mode: "client" }
   ],
