@@ -107,9 +107,6 @@ export default {
     static: { cacheControl: false }
   },
   router: {
-    linkActiveClass: "active",
-    extendRoutes(routes, resolve) {
-      routes.push({ path: "/", redirect: { name: "login" } });
-    }
+    linkActiveClass: "active"
   }
 };

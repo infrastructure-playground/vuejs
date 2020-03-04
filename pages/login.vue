@@ -9,6 +9,7 @@
       >
         <b-form-group label="Username: " label-for="username">
           <b-form-input
+            id="username"
             v-model="auth.username"
             type="text"
             :state="errors[0] ? false : valid ? true : null"
@@ -23,6 +24,7 @@
       >
         <b-form-group label="Password: " label-for="password">
           <b-form-input
+            id="password"
             v-model="auth.password"
             type="password"
             :state="errors[0] ? false : valid ? true : null"
@@ -41,8 +43,7 @@
 export default {
   data() {
     return {
-      auth: {},
-      username: ""
+      auth: {}
     };
   },
   methods: {
@@ -52,8 +53,6 @@ export default {
           data: this.auth
         });
       } catch (e) {
-        // eslint-disable-next-line no-console
-        // console.log("Error: " + JSON.stringify(e.response.data.error));
         this.$notify({
           group: "login",
           type: "error",
