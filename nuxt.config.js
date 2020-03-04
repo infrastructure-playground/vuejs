@@ -30,6 +30,7 @@ export default {
    */
   plugins: [
     "~plugins/validate.js",
+    "~plugins/axios.js",
     { src: "~plugins/vue-notification-ssr.js", mode: "server" },
     { src: "~plugins/vue-notification-client.js", mode: "client" }
   ],
@@ -53,27 +54,31 @@ export default {
     "@nuxtjs/pwa",
     "@nuxtjs/auth",
     // "@mole-inc/nuxt-validate" is the only to use v3 of vee-validate
-    ["@mole-inc/nuxt-validate"]
+    ["@mole-inc/nuxt-validate"],
+    "cookie-universal-nuxt"
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API || "http://localhost:8000"
+    headers: {
+      common: {
+        Accept: "application/json"
+      }
+    }
   },
   auth: {
     token: {
-      prefix: "token"
+      prefix: "token."
     },
     cookie: {
       prefix: ""
     },
     redirect: {
-      login: false,
+      login: "/login",
       logout: "/login",
-      home: "/",
-      callback: "/"
+      home: "/inventory/books"
     },
     strategies: {
       local: {
