@@ -1,11 +1,6 @@
 import https from "https";
 
 export default function({ $axios, req, app }) {
-  // if (process.client) {
-  //   $axios.setBaseURL(process.env.API || "http://localhost:8000");
-  // } else {
-  //   $axios.setBaseURL("http://django:8000");
-  // }
   $axios.onRequest(config => {
     const token = app.$cookies.get("token.local");
     if (process.server) {
@@ -27,6 +22,11 @@ export default function({ $axios, req, app }) {
     });
     config.withCredentials = false;
     config.headers.common.Authorization = token ? `JWT ${token}` : "";
-    console.log("Making request to: " + config.url);
+  });
+  $axios.onError(error => {
+    if (error.response.status === 401) {
+      app.$auth.logout();
+      return error;
+    }
   });
 }

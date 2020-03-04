@@ -108,7 +108,7 @@ export default {
             this.$notify({
               group: "registration",
               type: "error",
-              title: `<b>${key}<b>`,
+              title: `<b class="text-capitalize">${key}<b>: `,
               text: error.response.data[key][0]
             });
           }

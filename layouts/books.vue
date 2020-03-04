@@ -1,5 +1,6 @@
 <template>
   <div>
+    <nav-bar />
     <h1 class="text-center">
       Books Inventory
       <nuxt-link to="/inventory/books/add"
@@ -14,7 +15,12 @@
 </template>
 
 <script>
-export default {};
+import NavBar from "~/components/NavBar.vue";
+export default {
+  components: {
+    NavBar
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>

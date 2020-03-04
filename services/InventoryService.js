@@ -1,10 +1,13 @@
 const resources = {
-  v1_inventory_books_list: "/v1/inventory/books/"
+  v1_inventory_books: "/v1/inventory/books/"
 };
 
 export default $this => ({
   getBooks() {
-    console.log("getBooks");
-    return $this.$axios.get(resources.v1_inventory_books_list);
+    return $this.$axios.get(resources.v1_inventory_books);
+  },
+  postBook(book) {
+    console.log("postBook: " + book);
+    return $this.$axios.post(resources.v1_inventory_books, book);
   }
 });
