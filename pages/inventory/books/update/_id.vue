@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BookForm />
+    <BookForm :book="book" />
     <BookList :books="books" />
   </div>
 </template>
@@ -15,15 +15,27 @@ export default {
     BookList,
     BookForm
   },
-  async fetch({ store, error }) {
+  async fetch({ store, error, params }) {
     try {
-      await store.dispatch("inventory/fetchBooks");
+      await Promise.all([
+        store.dispatch("inventory/fetchBooks"),
+        store.dispatch("inventory/fetchBook", params.id)
+      ]);
     } catch (e) {
       console.log("Error: " + e);
     }
   },
+  data() {
+    return {
+      book: Object.assign(
+        {},
+        this.$store.state.inventory.book[this.$route.params.id]
+      )
+    };
+  },
   computed: mapState({
-    books: state => state.inventory.books
+    books: state => state.inventory.books,
+    name: state => state.inventory.name
   })
 };
 </script>

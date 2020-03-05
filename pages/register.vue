@@ -89,8 +89,7 @@
 export default {
   data() {
     return {
-      auth: {},
-      username: ""
+      auth: {}
     };
   },
   methods: {

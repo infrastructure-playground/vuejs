@@ -15,7 +15,7 @@ export default function({ $axios, req, app }) {
           ? "localhost"
           : req.connection.remoteAddress;
     } else {
-      config.baseURL = process.env.API || "http://localhost:8000";
+      config.baseURL = process.env.API;
     }
     config.httpsAgent = new https.Agent({
       rejectUnauthorized: false

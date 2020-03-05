@@ -1,6 +1,9 @@
 export default {
   mode: "universal",
-  // env: { API: process.env.API || "http://localhost:8000/api" },
+  env: {
+    API: process.env.API || "http://localhost:8000",
+    NODE_ENV: process.env.NODE_ENV
+  },
   /*
    ** Headers of the page
    */
