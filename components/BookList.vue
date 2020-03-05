@@ -29,12 +29,14 @@
     <b-modal :id="infoModal.id" ok-only @hide="resetInfoModal">
       <b-table stacked borderless :items="book">
         <template v-slot:cell(image)="data">
-          <img v-if="env" :src="data.item.image" alt="" />
-          <img
-            v-else
-            :src="data.item.image.replace('django', 'localhost')"
-            alt=""
-          />
+          <div v-if="data.item.image">
+            <img v-if="env" :src="data.item.image" alt="" />
+            <img
+              v-else
+              :src="data.item.image.replace('django', 'localhost')"
+              alt=""
+            />
+          </div>
         </template>
       </b-table>
     </b-modal>
