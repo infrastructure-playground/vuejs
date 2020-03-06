@@ -1,6 +1,7 @@
 <template>
   <div>
     <nav-bar />
+    <notifications group="books" position="top center" />
     <h1 class="text-center">
       Books Inventory
       <nuxt-link to="/inventory/books/add"

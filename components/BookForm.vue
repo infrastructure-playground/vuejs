@@ -1,6 +1,5 @@
 <template>
   <ValidationObserver ref="observer" v-slot="{ invalid }">
-    <notifications group="bookForm" position="top center" />
     <b-form
       class="form-crud"
       @submit.prevent="
