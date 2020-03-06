@@ -15,6 +15,10 @@ export const mutations = {
     state.book[book.id] = book;
     const item = state.books.find(item => item.id === book.id);
     Object.assign(item, book);
+  },
+  REMOVE_BOOK(state, id) {
+    delete state.book[id];
+    state.books = state.books.filter(item => item.id !== id);
   }
 };
 export const actions = {
@@ -27,7 +31,7 @@ export const actions = {
       .catch(error => {
         for (const key in error.response.data) {
           this.$notify({
-            group: "bookForm",
+            group: "books",
             type: "error",
             title: `<b class="text-capitalize">${key}<b>: `,
             text: error.response.data[key][0]
@@ -55,7 +59,7 @@ export const actions = {
       .then(response => {
         commit("SET_BOOK", response.data);
         this.$notify({
-          group: "bookForm",
+          group: "books",
           type: "success",
           title: "UPDATE SUCCESS!"
         });
@@ -63,12 +67,24 @@ export const actions = {
       .catch(error => {
         for (const key in error.response.data) {
           this.$notify({
-            group: "bookForm",
+            group: "books",
             type: "error",
             title: `<b class="text-capitalize">${key}<b>: `,
             text: error.response.data[key][0]
           });
         }
+      });
+  },
+  deleteBook({ commit }, id) {
+    return InventoryService(this)
+      .deleteBook(id)
+      .then(response => {
+        commit("REMOVE_BOOK", id);
+        this.$notify({
+          group: "books",
+          type: "success",
+          title: "DELETE SUCCESS!"
+        });
       });
   }
 };

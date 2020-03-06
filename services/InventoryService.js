@@ -14,5 +14,8 @@ export default $this => ({
   },
   putBook(book) {
     return $this.$axios.put(`${resources.v1_inventory_books}${book.id}/`, book);
+  },
+  deleteBook(id) {
+    return $this.$axios.delete(`${resources.v1_inventory_books}${id}/`);
   }
 });
