@@ -46,6 +46,15 @@ export default {
       auth: {}
     };
   },
+  mounted() {
+    if (this.$cookies.get("redirect")) {
+      this.$notify({
+        group: "login",
+        type: "warn",
+        title: "You are currently not logged in"
+      });
+    }
+  },
   methods: {
     async login() {
       try {

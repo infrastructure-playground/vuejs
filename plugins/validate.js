@@ -1,9 +1,9 @@
 /* eslint-disable import/namespace */
 import Vue from "vue";
 // import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-// import { ValidationObserver } from "vee-validate";
-// import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
+// import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 
 // import * as rules from "vee-validate/dist/rules";
 // import { messages } from "vee-validate/dist/locale/en.json";
