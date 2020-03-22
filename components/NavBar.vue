@@ -1,46 +1,30 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-light navbar-bg">
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#nav-content"
-      aria-controls="nav-content"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
+  <b-navbar toggleable="lg" type="light" class="navbar-bg">
     <!-- Brand -->
-    <nuxt-link class="navbar-brand" to="/">Logo</nuxt-link>
+    <b-navbar-brand to="/">
+      Logo
+    </b-navbar-brand>
+
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <!-- Links -->
-    <div id="nav-content" class="collapse navbar-collapse justify-content-end">
-      <ul class="navbar-nav">
-        <li v-if="!$auth.loggedIn" class="nav-item">
-          <nuxt-link class="nav-link" to="/register">
-            Register
-          </nuxt-link>
-        </li>
-        <li v-if="!$auth.loggedIn" class="nav-item">
-          <nuxt-link class="nav-link" to="/login">
-            Login
-          </nuxt-link>
-        </li>
-        <li v-if="$auth.loggedIn" class="nav-item">
-          <nuxt-link class="nav-link" to="/inventory/books">
-            Books
-          </nuxt-link>
-        </li>
-        <li v-if="$auth.loggedIn" class="nav-item">
-          <a href="#" class="nav-link" @click="logout">
-            Logout
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item v-if="!$auth.loggedIn" to="/register">
+          Register
+        </b-nav-item>
+        <b-nav-item v-if="!$auth.loggedIn" to="/login">
+          Login
+        </b-nav-item>
+        <b-nav-item v-if="$auth.loggedIn" to="/inventory/books">
+          Books
+        </b-nav-item>
+        <b-nav-item v-if="$auth.loggedIn" @click="logout">
+          Logout
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
