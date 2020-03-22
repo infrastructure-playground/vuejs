@@ -39,14 +39,23 @@ export const actions = {
         }
       });
   },
-  fetchBooks({ commit }) {
+  fetchBooks({ commit, getters }) {
+    const books = getters.getBooks;
+    if (books.length) {
+      return books;
+    }
     return InventoryService(this)
       .getBooks()
       .then(response => {
         return commit("SET_BOOKS", response.data);
       });
   },
-  fetchBook({ commit }, id) {
+  fetchBook({ commit, getters }, id) {
+    const book = getters.getBookById(id);
+    if (book) {
+      commit("SET_BOOK", book);
+      return book;
+    }
     return InventoryService(this)
       .getBook(id)
       .then(response => {
@@ -86,5 +95,13 @@ export const actions = {
           title: "DELETE SUCCESS!"
         });
       });
+  }
+};
+export const getters = {
+  getBooks: state => {
+    return state.books;
+  },
+  getBookById: state => id => {
+    return state.books.find(item => item.id === id);
   }
 };
