@@ -1,9 +1,5 @@
 <template>
   <div id="error-page">
-    <!-- <h1 class="text-center">
-      <p>{{ message }}</p>
-      <nuxt-link to="/">Return to homepage</nuxt-link>
-    </h1> -->
     <b-alert show variant="danger">
       <h4 class="alert-heading">{{ message }}</h4>
       <nuxt-link to="/">Return to homepage</nuxt-link>
