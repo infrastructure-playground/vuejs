@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
-    <notifications group="login" position="top center" />
+    <!-- <notifications group="login" position="top center" /> -->
     <b-form class="form-authentication" @submit.prevent="login">
       <ValidationProvider
         v-slot="{ valid, errors }"
@@ -32,7 +32,7 @@
           <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-      <b-button variant="primary" type="submit" :disabled="invalid">
+      <b-button id="login" variant="primary" type="submit" :disabled="invalid">
         Login
       </b-button>
     </b-form>
@@ -48,15 +48,15 @@ export default {
       auth: {}
     };
   },
-  mounted() {
-    if (this.$cookies.get("redirect")) {
-      this.$notify({
-        group: "login",
-        type: "warn",
-        title: "You are currently not logged in"
-      });
-    }
-  },
+  // mounted() {
+  //   if (this.$cookies.get("redirect")) {
+  //     this.$notify({
+  //       group: "login",
+  //       type: "warn",
+  //       title: "You are currently not logged in"
+  //     });
+  //   }
+  // },
   methods: {
     async login() {
       try {
