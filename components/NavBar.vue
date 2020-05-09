@@ -10,16 +10,20 @@
     <!-- Links -->
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item v-if="!$auth.loggedIn" to="/register">
+        <b-nav-item v-if="!$auth.loggedIn" id="register" to="/register">
           Register
         </b-nav-item>
-        <b-nav-item v-if="!$auth.loggedIn" to="/login">
+        <b-nav-item v-if="!$auth.loggedIn" id="login" to="/login">
           Login
         </b-nav-item>
-        <b-nav-item v-if="$auth.loggedIn" to="/inventory/books">
+        <b-nav-item
+          v-if="$auth.loggedIn"
+          id="inventory-books"
+          to="/inventory/books"
+        >
           Books
         </b-nav-item>
-        <b-nav-item v-if="$auth.loggedIn" @click="logout">
+        <b-nav-item v-if="$auth.loggedIn" id="logout" @click="logout">
           Logout
         </b-nav-item>
       </b-navbar-nav>

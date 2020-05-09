@@ -78,7 +78,12 @@
           type="text"
         ></b-form-input>
       </b-form-group>
-      <b-button variant="primary" type="submit" :disabled="invalid">
+      <b-button
+        id="register-button"
+        variant="primary"
+        type="submit"
+        :disabled="invalid"
+      >
         Register
       </b-button>
     </b-form>

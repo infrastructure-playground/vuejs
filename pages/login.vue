@@ -14,7 +14,9 @@
             type="text"
             :state="errors[0] ? false : valid ? true : null"
           ></b-form-input>
-          <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
+          <b-form-invalid-feedback id="username-error">
+            {{ errors[0] }}
+          </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
       <ValidationProvider
@@ -32,7 +34,12 @@
           <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-      <b-button variant="primary" type="submit" :disabled="invalid">
+      <b-button
+        id="login-button"
+        variant="primary"
+        type="submit"
+        :disabled="invalid"
+      >
         Login
       </b-button>
     </b-form>
@@ -48,15 +55,15 @@ export default {
       auth: {}
     };
   },
-  mounted() {
-    if (this.$cookies.get("redirect")) {
-      this.$notify({
-        group: "login",
-        type: "warn",
-        title: "You are currently not logged in"
-      });
-    }
-  },
+  // mounted() {
+  //   if (this.$cookies.get("redirect")) {
+  //     this.$notify({
+  //       group: "login",
+  //       type: "warn",
+  //       title: "You are currently not logged in"
+  //     });
+  //   }
+  // },
   methods: {
     async login() {
       try {

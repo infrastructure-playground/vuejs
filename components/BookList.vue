@@ -1,6 +1,6 @@
 <template>
   <div class="px-4">
-    <b-table bordered hover :items="books" :fields="fields">
+    <b-table id="book-list" bordered hover :items="books" :fields="fields">
       <template v-slot:cell(actions)="data">
         <div class="text-center">
           <font-awesome-icon
