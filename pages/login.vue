@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
-    <!-- <notifications group="login" position="top center" /> -->
+    <notifications group="login" position="top center" />
     <b-form class="form-authentication" @submit.prevent="login">
       <ValidationProvider
         v-slot="{ valid, errors }"
@@ -14,7 +14,9 @@
             type="text"
             :state="errors[0] ? false : valid ? true : null"
           ></b-form-input>
-          <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
+          <b-form-invalid-feedback id="username-error">
+            {{ errors[0] }}
+          </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
       <ValidationProvider
@@ -32,7 +34,12 @@
           <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-      <b-button id="login" variant="primary" type="submit" :disabled="invalid">
+      <b-button
+        id="login-button"
+        variant="primary"
+        type="submit"
+        :disabled="invalid"
+      >
         Login
       </b-button>
     </b-form>

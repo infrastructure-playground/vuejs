@@ -1,5 +1,5 @@
 <template>
-  <div><BookList :books="books" /></div>
+  <div id="book-inventory"><BookList :books="books" /></div>
 </template>
 
 <script>
