@@ -2,9 +2,7 @@
   <ValidationObserver ref="observer" v-slot="{ invalid }">
     <b-form
       class="form-crud"
-      @submit.prevent="
-        Object.keys(book).length ? updateBook(book) : createBook()
-      "
+      @submit.prevent="method === 'Update' ? updateBook(book) : createBook()"
     >
       <ValidationProvider
         v-slot="{ valid, errors }"
@@ -29,7 +27,7 @@
         ></b-form-input>
       </b-form-group>
       <b-button variant="primary" type="submit" :disabled="invalid">
-        {{ checkButtonLabel }}
+        {{ method }}
       </b-button>
     </b-form>
   </ValidationObserver>
@@ -39,16 +37,15 @@
 export default {
   name: "BookList",
   props: {
+    method: {
+      type: String,
+      default: "Add"
+    },
     book: {
       type: Object,
       default() {
         return {};
       }
-    }
-  },
-  computed: {
-    checkButtonLabel() {
-      return this.book ? "Update" : "Add";
     }
   },
   methods: {

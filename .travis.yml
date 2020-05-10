@@ -18,7 +18,6 @@ install:
 
 jobs:
   include:
-    - stage: Navbar Unit Testing
+    - stage: Component Unit Testing
       script: docker exec -it vuejs npm run test -t 'Navbar'
-    - stage: Login Unit Testing
-    script: docker exec -it vuejs npm run test -t 'Login'
+    - script: docker exec -it vuejs npm run test -t 'Login'

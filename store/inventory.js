@@ -9,7 +9,7 @@ export const mutations = {
     state.books = books;
   },
   ADD_BOOK(state, book) {
-    state.books.push(book);
+    state.books.unshift(book);
   },
   SET_BOOK(state, book) {
     state.book[book.id] = book;
@@ -27,6 +27,7 @@ export const actions = {
       .postBook(book)
       .then(response => {
         commit("ADD_BOOK", response.data);
+        return response.data;
       })
       .catch(error => {
         for (const key in error.response.data) {

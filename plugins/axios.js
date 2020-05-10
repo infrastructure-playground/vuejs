@@ -4,8 +4,7 @@ export default function({ $axios, req, app }) {
   $axios.onRequest(config => {
     const token = app.$cookies.get("token.local");
     if (process.server) {
-      config.baseURL =
-        process.env.PRIVATE_DNS_API || process.env.API || "http://django:8000";
+      config.baseURL = process.env.PRIVATE_DNS_API || "http://django:8000";
       config.headers.common["X-Forwarded-For"] =
         req.headers["x-forwarded-for"] ||
         req.connection.remoteAddress === "127.0.0.1"
