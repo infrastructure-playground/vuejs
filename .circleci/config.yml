@@ -49,7 +49,7 @@ jobs:
           at: workspace
       - run: >-
              docker_image=$(cat workspace/image_sha);
-             kubectl set image deployment websites-$CIRCLE_PROJECT_REPONAME $CIRCLE_PROJECT_REPONAME=$docker_image --record
+             kubectl set image deployment $CIRCLE_PROJECT_REPONAME-frontend $CIRCLE_PROJECT_REPONAME=$docker_image --record
       - run: kubectl get pods
 
 workflows:
