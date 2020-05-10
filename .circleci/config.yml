@@ -5,11 +5,7 @@ jobs:
     #   docker_layer_caching: true
     machine: true
     parameters:
-      organization:
-        type: string
       project_id:
-        type: string
-      docker_password:
         type: string
       api:
         type: string
@@ -40,14 +36,12 @@ jobs:
         type: string
       storage_buckets_key:
         type: string
-      project_name:
-        type: string
     steps:
       - checkout
       - run: gcloud config set project << parameters.project_id >>
       - run: echo << parameters.storage_buckets_key >> > storageBucketsBackendServiceKey.json
       - run: gcloud auth activate-service-account --key-file=storageBucketsBackendServiceKey.json
-      - run: gsutil cp gs://<< parameters.project_name >>-secrets-sb/gkeDeployServiceKey.json .
+      - run: gsutil cp gs://<< parameters.project_id >>-secrets-sb/gkeDeployServiceKey.json .
       - run: gcloud auth activate-service-account --key-file=gkeDeployServiceKey.json
       - run: gcloud config set compute/zone asia-east2-a
       - run: gcloud container clusters get-credentials << parameters.project_id >>-gke-cluster
@@ -64,8 +58,6 @@ workflows:
     jobs:
       - push_docker_image:
           project_id: $PROJECT_ID
-          organization: asia.gcr.io
-          docker_password: $GCR_KEY
           api: $API
           filters:
             branches:
@@ -73,7 +65,6 @@ workflows:
                 - master
       - deploy_code:
           project_id: $PROJECT_ID
-          project_name: $PROJECT_NAME
           storage_buckets_key: $STORAGE_BUCKETS_KEY
           requires:
             - push_docker_image
@@ -85,8 +76,6 @@ workflows:
     jobs:
       - push_docker_image:
           project_id: $PROD_PROJECT_ID
-          organization: asia.gcr.io
-          docker_password: $PROD_GCR_KEY
           api: $PROD_API
           filters:
             branches:
@@ -94,7 +83,6 @@ workflows:
                 - production
       - deploy_code:
           project_id: $PROD_PROJECT_ID
-          project_name: $PROD_PROJECT_NAME
           storage_buckets_key: $PROD_STORAGE_BUCKETS_KEY
           requires:
             - push_docker_image
