@@ -1,0 +1,24 @@
+sudo: required
+
+language: node_js
+node_js:
+  - "13.8"
+cache:
+  directories:
+    - "node_modules"
+
+services:
+  - docker
+
+install:
+  - docker build --cache-from=infrastructureplayground/vuejs:master -t infrastructureplayground/vuejs:master .
+  - docker run -d
+    --name=vuejs
+    infrastructureplayground/vuejs:master
+
+jobs:
+  include:
+    - stage: Navbar Unit Testing
+      script: docker exec -it vuejs npm run test -t 'Navbar'
+    - stage: Login Unit Testing
+    script: docker exec -it vuejs npm run test -t 'Login'
