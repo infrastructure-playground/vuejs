@@ -1,0 +1,105 @@
+version: 2.1
+jobs:
+  push_docker_image:
+    # machine:
+    #   docker_layer_caching: true
+    machine: true
+    parameters:
+      organization:
+        type: string
+      project_id:
+        type: string
+      docker_password:
+        type: string
+      api:
+        type: string
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: >-
+             docker build
+             --build-arg CIRCLE_BRANCH=$CIRCLE_BRANCH
+             --build-arg=API=<< parameters.api >>
+             --build-arg=PRIVATE_DNS_API=$PRIVATE_DNS_API
+             --cache-from=infrastructureplayground/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH
+             -t infrastructureplayground/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH
+             .
+      - run: docker push infrastructureplayground/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH
+      - run: mkdir -p workspace
+      - run: echo $(docker inspect --format='{{index .RepoDigests 0}}' infrastructureplayground/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH) > workspace/image_sha
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - image_sha
+  deploy_code:
+    parallelism: 1
+    docker:
+      - image: google/cloud-sdk
+        name: GCP
+    parameters:
+      project_id:
+        type: string
+      storage_buckets_key:
+        type: string
+      project_name:
+        type: string
+    steps:
+      - checkout
+      - run: gcloud config set project << parameters.project_id >>
+      - run: echo << parameters.storage_buckets_key >> > storageBucketsBackendServiceKey.json
+      - run: gcloud auth activate-service-account --key-file=storageBucketsBackendServiceKey.json
+      - run: gsutil cp gs://<< parameters.project_name >>-secrets-sb/gkeDeployServiceKey.json .
+      - run: gcloud auth activate-service-account --key-file=gkeDeployServiceKey.json
+      - run: gcloud config set compute/zone asia-east2-a
+      - run: gcloud container clusters get-credentials << parameters.project_id >>-gke-cluster
+      - attach_workspace:
+          at: workspace
+      - run: >-
+             docker_image=$(cat workspace/image_sha);
+             kubectl set image deployment websites-$CIRCLE_PROJECT_REPONAME $CIRCLE_PROJECT_REPONAME=$docker_image --record
+      - run: kubectl get pods
+
+workflows:
+  version: 2
+  pipeline:
+    jobs:
+      - push_docker_image:
+          project_id: $PROJECT_ID
+          organization: asia.gcr.io
+          docker_password: $GCR_KEY
+          api: $API
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_code:
+          project_id: $PROJECT_ID
+          project_name: $PROJECT_NAME
+          storage_buckets_key: $STORAGE_BUCKETS_KEY
+          requires:
+            - push_docker_image
+          filters:
+            branches:
+              only:
+                - master
+  production_pipeline:
+    jobs:
+      - push_docker_image:
+          project_id: $PROD_PROJECT_ID
+          organization: asia.gcr.io
+          docker_password: $PROD_GCR_KEY
+          api: $PROD_API
+          filters:
+            branches:
+              only:
+                - production
+      - deploy_code:
+          project_id: $PROD_PROJECT_ID
+          project_name: $PROD_PROJECT_NAME
+          storage_buckets_key: $PROD_STORAGE_BUCKETS_KEY
+          requires:
+            - push_docker_image
+          filters:
+            branches:
+              only:
+                - production
