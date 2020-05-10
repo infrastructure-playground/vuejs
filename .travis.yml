@@ -21,4 +21,4 @@ jobs:
     - stage: Navbar Unit Testing
       script: docker exec -it vuejs npm run test -t 'Navbar'
     - stage: Login Unit Testing
-    script: docker exec -it vuejs npm run test -t 'Login'
+      script: docker exec -it vuejs npm run test -t 'Login'
