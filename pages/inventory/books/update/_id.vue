@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BookForm :book="book" />
+    <BookForm method="Update" :book="book" />
     <BookList :books="books" />
   </div>
 </template>
