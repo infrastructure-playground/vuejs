@@ -15,7 +15,8 @@ localVue.use(Notifications);
 jest.useFakeTimers();
 
 describe("Login", () => {
-  test("if username is not entered", async () => {
+  // test("if username is not entered", async () => {
+  test("if username is not entered", () => {
     const wrapper = mount(Login, { localVue, sync: false });
     const username = wrapper.find("#username");
     // const usernameError = wrapper.find("#username-error");

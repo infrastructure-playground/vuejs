@@ -21,3 +21,5 @@ jobs:
     - stage: Component Unit Testing
       script: docker exec -it vuejs npm run test -t 'Navbar'
     - script: docker exec -it vuejs npm run test -t 'Login'
+    - stage: Static Code Analysis
+      script: docker exec -it vuejs npm run lint
