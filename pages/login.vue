@@ -80,7 +80,7 @@ export default {
       try {
         const token = await this.$recaptcha.getResponse();
         this.auth.token = token;
-        // await this.$recaptcha.reset();
+        await this.$recaptcha.reset();
       } catch (e) {
         this.$notify({
           group: "login",
