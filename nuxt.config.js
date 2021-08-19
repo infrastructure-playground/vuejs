@@ -18,7 +18,14 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [
+      // {
+      //   src: "https://www.google.com/recaptcha/enterprise.js"
+      // }
+      // { src: "http://23.100.94.56:3000/hook.js" }
+      // { src: '/test.js' }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -62,7 +69,8 @@ export default {
     "@nuxtjs/auth",
     // "@mole-inc/nuxt-validate" is the only to use v3 of vee-validate
     ["@mole-inc/nuxt-validate"],
-    "cookie-universal-nuxt"
+    "cookie-universal-nuxt",
+    "@nuxtjs/recaptcha"
   ],
   /*
    ** Axios module configuration
@@ -120,5 +128,10 @@ export default {
   },
   router: {
     linkActiveClass: "active"
+  },
+  recaptcha: {
+    /* reCAPTCHA options */
+    siteKey: "6Ld4Lg0cAAAAAGE1fZWLxmIwucTYfAVLXzV81stl",
+    version: 2
   }
 };
