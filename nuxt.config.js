@@ -131,7 +131,8 @@ export default {
   },
   recaptcha: {
     /* reCAPTCHA options */
-    siteKey: "6Ld4Lg0cAAAAAGE1fZWLxmIwucTYfAVLXzV81stl",
-    version: 2
+    siteKey: "6Ld6zg0cAAAAAE5gKfFd3nk_Y7Q7b8m-VSbuagTX",
+    version: 3
+    // version: 2
   }
 };

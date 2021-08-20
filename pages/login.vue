@@ -34,9 +34,9 @@
           <b-form-invalid-feedback> {{ errors[0] }} </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-      <b-form-group>
+      <!-- <b-form-group>
         <recaptcha />
-      </b-form-group>
+      </b-form-group> -->
       <!-- <div
         class="g-recaptcha"
         data-sitekey="6Ld4Lg0cAAAAAGE1fZWLxmIwucTYfAVLXzV81stl"
@@ -66,6 +66,16 @@ export default {
       auth: {}
     };
   },
+  async mounted() {
+    try {
+      await this.$recaptcha.init();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  beforeDestroy() {
+    this.$recaptcha.destroy();
+  },
   // mounted() {
   //   if (this.$cookies.get("redirect")) {
   //     this.$notify({
@@ -78,9 +88,11 @@ export default {
   methods: {
     async login() {
       try {
-        const token = await this.$recaptcha.getResponse();
+        // const token = await this.$recaptcha.getResponse();
+        const token = await this.$recaptcha.execute("login"); // It is recommended to add reCaptcha Enterprise verification on a user interaction
+        console.log(`token: ${token}`);
         this.auth.token = token;
-        await this.$recaptcha.reset();
+        // await this.$recaptcha.reset();
       } catch (e) {
         this.$notify({
           group: "login",
