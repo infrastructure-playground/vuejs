@@ -66,16 +66,6 @@ export default {
       auth: {}
     };
   },
-  async mounted() {
-    try {
-      await this.$recaptcha.init();
-    } catch (e) {
-      console.error(e);
-    }
-  },
-  beforeDestroy() {
-    this.$recaptcha.destroy();
-  },
   // mounted() {
   //   if (this.$cookies.get("redirect")) {
   //     this.$notify({
@@ -85,33 +75,49 @@ export default {
   //     });
   //   }
   // },
+  mounted() {
+    /* eslint-disable no-undef */
+    grecaptcha.enterprise.ready(function() {
+      grecaptcha.enterprise
+        .execute(process.env.SITE_KEY, {
+          action: "VISIT_LOGIN_PAGE"
+        })
+        .then(function(token) {
+          // TODO assessment
+        });
+    });
+  },
   methods: {
-    async login() {
+    login() {
+      const _this = this;
       try {
-        // const token = await this.$recaptcha.getResponse();
-        const token = await this.$recaptcha.execute("login"); // It is recommended to add reCaptcha Enterprise verification on a user interaction
-        console.log(`token: ${token}`);
-        this.auth.token = token;
-        // await this.$recaptcha.reset();
+        grecaptcha.enterprise.ready(function() {
+          grecaptcha.enterprise
+            .execute(process.env.SITE_KEY, {
+              action: "LOGIN"
+            })
+            .then(function(token) {
+              _this.auth.token = token;
+              try {
+                _this.$auth.loginWith("local", {
+                  data: _this.auth
+                });
+              } catch (e) {
+                _this.$notify({
+                  group: "login",
+                  type: "error",
+                  title: "ERROR:",
+                  text: e.response.data.error
+                });
+              }
+            });
+        });
       } catch (e) {
         this.$notify({
           group: "login",
           type: "error",
           title: "ERROR:",
           text: "Captcha Error"
-        });
-        return;
-      }
-      try {
-        await this.$auth.loginWith("local", {
-          data: this.auth
-        });
-      } catch (e) {
-        this.$notify({
-          group: "login",
-          type: "error",
-          title: "ERROR:",
-          text: e.response.data.error
         });
       }
     }

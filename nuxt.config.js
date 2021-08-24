@@ -1,8 +1,11 @@
+const SITE_KEY = "6Ld6zg0cAAAAAE5gKfFd3nk_Y7Q7b8m-VSbuagTX";
+
 export default {
   mode: "universal",
   env: {
     API: process.env.API || "http://localhost:8000",
-    NODE_ENV: process.env.NODE_ENV
+    NODE_ENV: process.env.NODE_ENV,
+    SITE_KEY
   },
   /*
    ** Headers of the page
@@ -20,6 +23,9 @@ export default {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     script: [
+      {
+        src: `https://www.google.com/recaptcha/enterprise.js?render=${SITE_KEY}`
+      }
       // {
       //   src: "https://www.google.com/recaptcha/enterprise.js"
       // }
@@ -69,8 +75,8 @@ export default {
     "@nuxtjs/auth",
     // "@mole-inc/nuxt-validate" is the only to use v3 of vee-validate
     ["@mole-inc/nuxt-validate"],
-    "cookie-universal-nuxt",
-    "@nuxtjs/recaptcha"
+    "cookie-universal-nuxt"
+    // "@nuxtjs/recaptcha"
   ],
   /*
    ** Axios module configuration
@@ -128,11 +134,11 @@ export default {
   },
   router: {
     linkActiveClass: "active"
-  },
-  recaptcha: {
-    /* reCAPTCHA options */
-    siteKey: "6Ld6zg0cAAAAAE5gKfFd3nk_Y7Q7b8m-VSbuagTX",
-    version: 3
-    // version: 2
   }
+  // recaptcha: {
+  //   /* reCAPTCHA options */
+  //   siteKey: "6Ld6zg0cAAAAAE5gKfFd3nk_Y7Q7b8m-VSbuagTX",
+  //   version: 3
+  //   // version: 2
+  // }
 };
