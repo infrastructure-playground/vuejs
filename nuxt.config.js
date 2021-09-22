@@ -52,7 +52,8 @@ export default {
     "~plugins/axios.js",
     "~plugins/fontawesome.js",
     { src: "~plugins/vue-notification-ssr.js", mode: "server" },
-    { src: "~plugins/vue-notification-client.js", mode: "client" }
+    { src: "~plugins/vue-notification-client.js", mode: "client" },
+    "~/plugins/vue-lodash.js"
   ],
   /*
    ** Nuxt.js dev-modules
@@ -75,8 +76,9 @@ export default {
     "@nuxtjs/auth",
     // "@mole-inc/nuxt-validate" is the only to use v3 of vee-validate
     ["@mole-inc/nuxt-validate"],
-    "cookie-universal-nuxt"
+    "cookie-universal-nuxt",
     // "@nuxtjs/recaptcha"
+    "nuxt-highcharts"
   ],
   /*
    ** Axios module configuration
